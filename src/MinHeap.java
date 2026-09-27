@@ -46,7 +46,9 @@ public class MinHeap {
         }
     }
     private void swap(int i, int j){
-        
+        Object temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
     }
 
     private int compare(Object a, Object b){
