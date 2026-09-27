@@ -321,5 +321,87 @@ public class Benchmark {
     }
 
     static void workload4Heap() throws IOException {
+        PrintWriter out = new PrintWriter(
+                new FileWriter(OUT_DIR + "workload4_heap.csv")
+        );
+
+        out.println(
+                "n,avg_insert_time_ns,avg_extract_time_ns," +
+                        "avg_insert_comparisons,avg_extract_comparisons,order_ok"
+        );
+
+        for (int n : SIZES) {
+
+            double insTime = 0;
+            double extTime = 0;
+
+            long insComp = 0;
+            long extComp = 0;
+
+            boolean orderOk = true;
+
+            for (int rep = 0; rep < REPEATS; rep++) {
+
+                Random dataRnd = new Random(SEED + rep);
+
+                int[] values = new int[n];
+
+                for (int i = 0; i < n; i++) {
+                    values[i] = dataRnd.nextInt();
+                }
+
+                MinHeap heap = new MinHeap();
+
+                heap.resetCounters();
+
+                long t0 = System.nanoTime();
+
+                for (int v : values) {
+                    heap.insert(v);
+                }
+
+                long t1 = System.nanoTime();
+
+                insTime += (t1 - t0);
+                insComp += heap.comparisons;
+
+
+                heap.resetCounters();
+
+                int prev = Integer.MIN_VALUE;
+
+                long t2 = System.nanoTime();
+
+                for (int i = 0; i < n; i++) {
+
+                    int m = (Integer) heap.extractMin();
+
+                    if (m < prev) {
+                        orderOk = false;
+                    }
+
+                    prev = m;
+                }
+
+                long t3 = System.nanoTime();
+
+                extTime += (t3 - t2);
+                extComp += heap.comparisons;
+            }
+
+            out.printf(
+                    "%d,%.1f,%.1f,%d,%d,%b%n",
+                    n,
+                    insTime / REPEATS,
+                    extTime / REPEATS,
+                    insComp / REPEATS,
+                    extComp / REPEATS,
+                    orderOk
+            );
+
+            System.out.println("W4 n=" + n + " done");
+        }
+
+        out.close();
     }
 }
