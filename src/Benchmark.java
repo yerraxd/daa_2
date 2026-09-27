@@ -96,6 +96,87 @@ public class Benchmark {
     }
 
     static void workload2Search() throws IOException {
+        PrintWriter out = new PrintWriter(
+                new FileWriter(OUT_DIR + "workload2_search.csv")
+        );
+
+        out.println("structure,n,avg_time_ns,avg_comparisons");
+
+        for (int n : SIZES) {
+            double arrTime = 0;
+            double listTime = 0;
+
+            long arrComp = 0;
+            long listComp = 0;
+
+            for (int rep = 0; rep < REPEATS; rep++) {
+
+                Random dataRnd = new Random(SEED);
+
+                DynamicArray arr = new DynamicArray();
+                LinkedList list = new LinkedList();
+
+                for (int i = 0; i < n; i++) {
+                    int v = dataRnd.nextInt();
+
+                    arr.add(v);
+                    list.add(v);
+                }
+
+                Random valRnd = new Random(SEED + rep + 1);
+
+                int[] values = new int[1000];
+
+                for (int i = 0; i < values.length; i++) {
+                    values[i] = valRnd.nextInt();
+                }
+
+                arr.resetCounters();
+
+                long t0 = System.nanoTime();
+
+                for (int v : values) {
+                    arr.contains(v);
+                }
+
+                long t1 = System.nanoTime();
+
+                arrTime += (t1 - t0);
+                arrComp += arr.comparisons;
+
+
+                list.resetCounters();
+
+                long t2 = System.nanoTime();
+
+                for (int v : values) {
+                    list.contains(v);
+                }
+
+                long t3 = System.nanoTime();
+
+                listTime += (t3 - t2);
+                listComp += list.comparisons;
+            }
+
+            out.printf(
+                    "DynamicArray,%d,%.1f,%d%n",
+                    n,
+                    arrTime / REPEATS,
+                    arrComp / REPEATS
+            );
+
+            out.printf(
+                    "LinkedList,%d,%.1f,%d%n",
+                    n,
+                    listTime / REPEATS,
+                    listComp / REPEATS
+            );
+
+            System.out.println("W2 n=" + n + " done");
+        }
+
+        out.close();
     }
 
     static void workload3InsertRemove() throws IOException {
