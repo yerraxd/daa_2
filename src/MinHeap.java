@@ -32,6 +32,7 @@ public class MinHeap {
         }
         array[size] = data;
         size++;
+        siftUp(size - 1);
     }
 
     private void siftUp(int index){
@@ -55,4 +56,9 @@ public class MinHeap {
         return ((Comparable) a).compareTo(b);
     }
 
+    public Object peekMin(){
+        return array[0];
+    }
+
+    
 }
