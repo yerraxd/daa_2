@@ -86,5 +86,7 @@ public class MinHeap {
             index = smallest;
         }
     }
-
+    public boolean isEmpty(){
+        return size == 0;
+    }
 }
