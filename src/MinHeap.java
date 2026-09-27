@@ -67,4 +67,21 @@ public class MinHeap {
         size--;
         return min;
     }
+
+    private void siftDown(int index){
+        while (true) {
+            int left = index * 2 + 1;
+            int right = index * 2 + 2;
+            int smallest = index;
+            if (left < size && compare(array[left], array[smallest]) < 0) {
+                smallest = left;
+            }
+            if (right < size && compare(array[right], array[smallest]) < 0) {
+                smallest = right;
+            }
+            if (smallest == index) break;
+            swap(index, smallest);
+            index = smallest;
+        }
+    }
 }
