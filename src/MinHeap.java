@@ -60,5 +60,11 @@ public class MinHeap {
         return array[0];
     }
 
-    
+    public Object extractMin(){
+        Object min = array[0];
+        array[0] = array[size - 1];
+        array[size - 1] = null;
+        size--;
+        return min;
+    }
 }
