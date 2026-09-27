@@ -33,4 +33,24 @@ public class MinHeap {
         array[size] = data;
         size++;
     }
+
+    private void siftUp(int index){
+        while (index > 0) {
+            int parent = (index - 1) / 2;
+            if (compare(array[index], array[parent]) < 0) {
+                swap(index, parent);
+                index = parent;
+            } else {
+                break;
+            }
+        }
+    }
+    private void swap(int i, int j){
+        
+    }
+
+    private int compare(Object a, Object b){
+        return ((Comparable) a).compareTo(b);
+    }
+
 }
