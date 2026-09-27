@@ -180,9 +180,144 @@ public class Benchmark {
     }
 
     static void workload3InsertRemove() throws IOException {
+        PrintWriter out = new PrintWriter(
+                new FileWriter(OUT_DIR + "workload3_insert_remove.csv")
+        );
+
+        out.println(
+                "structure,n,position,operation,avg_time_ns,avg_movements"
+        );
+
+        for (int n : SIZES) {
+
+            runInsertRemove(out, n, "front", 0);
+            runInsertRemove(out, n, "middle", n / 2);
+
+            System.out.println("W3 n=" + n + " done");
+        }
+
+        out.close();
     }
 
-    static void runInsertRemove(PrintWriter out, int n, String posLabel, int index) {
+    static void runInsertRemove(
+            PrintWriter out,
+            int n,
+            String posLabel,
+            int index
+    ) {
+        double arrInsTime = 0;
+        double arrRemTime = 0;
+
+        double listInsTime = 0;
+        double listRemTime = 0;
+
+        long arrInsMove = 0;
+        long arrRemMove = 0;
+
+        long listInsMove = 0;
+        long listRemMove = 0;
+
+        for (int rep = 0; rep < REPEATS; rep++) {
+
+            Random dataRnd = new Random(SEED);
+
+            DynamicArray arr = new DynamicArray();
+            LinkedList list = new LinkedList();
+
+            for (int i = 0; i < n; i++) {
+                int v = dataRnd.nextInt();
+
+                arr.add(v);
+                list.add(v);
+            }
+
+            int idx = index;
+
+            arr.resetCounters();
+
+            long t0 = System.nanoTime();
+
+            for (int i = 0; i < 1000; i++) {
+                arr.add(idx, i);
+            }
+
+            long t1 = System.nanoTime();
+
+            arrInsTime += (t1 - t0);
+            arrInsMove += arr.movements;
+
+
+            list.resetCounters();
+
+            long t2 = System.nanoTime();
+
+            for (int i = 0; i < 1000; i++) {
+                list.add(idx, i);
+            }
+
+            long t3 = System.nanoTime();
+
+            listInsTime += (t3 - t2);
+            listInsMove += list.movements;
+
+            arr.resetCounters();
+
+            long t4 = System.nanoTime();
+
+            for (int i = 0; i < 1000; i++) {
+                arr.remove(idx);
+            }
+
+            long t5 = System.nanoTime();
+
+            arrRemTime += (t5 - t4);
+            arrRemMove += arr.movements;
+
+            list.resetCounters();
+
+            long t6 = System.nanoTime();
+
+            for (int i = 0; i < 1000; i++) {
+                list.remove(idx);
+            }
+
+            long t7 = System.nanoTime();
+
+            listRemTime += (t7 - t6);
+            listRemMove += list.movements;
+        }
+
+        out.printf(
+                "DynamicArray,%d,%s,insert,%.1f,%d%n",
+                n,
+                posLabel,
+                arrInsTime / REPEATS,
+                arrInsMove / REPEATS
+        );
+
+        out.printf(
+                "DynamicArray,%d,%s,remove,%.1f,%d%n",
+                n,
+                posLabel,
+                arrRemTime / REPEATS,
+                arrRemMove / REPEATS
+        );
+
+        out.printf(
+                "LinkedList,%d,%s,insert,%.1f,%d%n",
+                n,
+                posLabel,
+                listInsTime / REPEATS,
+                listInsMove / REPEATS
+        );
+
+        out.printf(
+                "LinkedList,%d,%s,remove,%.1f,%d%n",
+                n,
+                posLabel,
+                listRemTime / REPEATS,
+                listRemMove / REPEATS
+        );
     }
 
     static void workload4Heap() throws IOException {
