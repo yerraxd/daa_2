@@ -14,4 +14,23 @@ public class LinkedList {
 
     public LinkedList() {
     }
+
+    public void add(Object data) {
+        Node node = new Node(data);
+        if (head == null) {
+            head = node;
+            tail = node;
+        } else {
+            tail.next = node;
+            tail = node;
+        }
+        size++;
+    }
+    private Node getNode(int index) {
+        Node current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+        return current;
+    }
 }
