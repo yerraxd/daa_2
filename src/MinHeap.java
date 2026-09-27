@@ -3,6 +3,14 @@ public class MinHeap {
     int capacity = 8;
     Object[] array;
 
+    public long comparisons = 0;
+    public long movements = 0;
+
+    public void resetCounters(){
+        comparisons = 0;
+        movements = 0;
+    }
+
     public MinHeap(){
         this.array = new Object[capacity];
     }
@@ -38,6 +46,7 @@ public class MinHeap {
     private void siftUp(int index){
         while (index > 0) {
             int parent = (index - 1) / 2;
+            comparisons++;
             if (compare(array[index], array[parent]) < 0) {
                 swap(index, parent);
                 index = parent;
@@ -50,6 +59,7 @@ public class MinHeap {
         Object temp = array[i];
         array[i] = array[j];
         array[j] = temp;
+        movements++;
     }
 
     private int compare(Object a, Object b){
@@ -75,11 +85,17 @@ public class MinHeap {
             int left = index * 2 + 1;
             int right = index * 2 + 2;
             int smallest = index;
-            if (left < size && compare(array[left], array[smallest]) < 0) {
-                smallest = left;
+            if (left < size) {
+                comparisons++;
+                if (compare(array[left], array[smallest]) < 0) {
+                    smallest = left;
+                }
             }
-            if (right < size && compare(array[right], array[smallest]) < 0) {
-                smallest = right;
+            if (right < size) {
+                comparisons++;
+                if (compare(array[right], array[smallest]) < 0) {
+                    smallest = right;
+                }
             }
             if (smallest == index) break;
             swap(index, smallest);
