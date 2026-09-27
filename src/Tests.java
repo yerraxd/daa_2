@@ -209,7 +209,34 @@ public class Tests {
         check("ll matches java.util.LinkedList", allMatch);
     }
 
+    static void crossValidateMinHeap() {
+        java.util.Random rnd = new java.util.Random(42);
+        MinHeap heap = new MinHeap();
+        java.util.PriorityQueue<Integer> pq = new java.util.PriorityQueue<>();
+        for (int i = 0; i < 5000; i++) {
+            int v = rnd.nextInt(100000);
+            heap.insert(v);
+            pq.add(v);
+        }
+        boolean sequenceMatches = true;
+        while (!pq.isEmpty()) {
+            int expected = pq.poll();
+            int actual = (Integer) heap.extractMin();
+            if (expected != actual) sequenceMatches = false;
+        }
+        check("mh matches PriorityQueue", sequenceMatches);
+    }
+
     public static void main(String[] args) {
+        testDynamicArrayBasic();
+        testDynamicArrayLarge();
+        testLinkedListBasic();
+        testLinkedListLarge();
+        testMinHeapBasic();
+        testMinHeapLarge();
+        crossValidateDynamicArray();
+        crossValidateLinkedList();
+        crossValidateMinHeap();
         System.out.println("Passed: " + passed + ", Failed: " + failed);
     }
 }
