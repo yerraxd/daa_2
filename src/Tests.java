@@ -180,6 +180,35 @@ public class Tests {
         }
         check("da matches ArrayList", allMatch);
     }
+
+    static void crossValidateLinkedList() {
+        java.util.Random rnd = new java.util.Random(42);
+        LinkedList la = new LinkedList();
+        java.util.LinkedList<Integer> lref = new java.util.LinkedList<>();
+        for (int i = 0; i < 5000; i++) {
+            int op = rnd.nextInt(4);
+            if (op == 0 || lref.isEmpty()) {
+                int v = rnd.nextInt(1000);
+                la.add(v);
+                lref.add(v);
+            } else if (op == 1) {
+                int idx = rnd.nextInt(lref.size() + 1);
+                int v = rnd.nextInt(1000);
+                la.add(idx, v);
+                lref.add(idx, v);
+            } else if (op == 2 && !lref.isEmpty()) {
+                int idx = rnd.nextInt(lref.size());
+                la.remove(idx);
+                lref.remove(idx);
+            }
+        }
+        boolean allMatch = true;
+        for (int i = 0; i < lref.size(); i++) {
+            if (!la.get(i).equals(lref.get(i))) allMatch = false;
+        }
+        check("ll matches java.util.LinkedList", allMatch);
+    }
+
     public static void main(String[] args) {
         System.out.println("Passed: " + passed + ", Failed: " + failed);
     }
