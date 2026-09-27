@@ -57,10 +57,11 @@ public class MinHeap {
     }
 
     public Object peekMin(){
+        if (size == 0) throw new IndexOutOfBoundsException();
         return array[0];
     }
-
     public Object extractMin(){
+        if (size == 0) throw new IndexOutOfBoundsException();
         Object min = array[0];
         array[0] = array[size - 1];
         array[size - 1] = null;
