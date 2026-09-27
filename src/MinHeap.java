@@ -24,4 +24,13 @@ public class MinHeap {
         capacity = newCapacity;
         array = newArray;
     }
+
+    public void insert(Object data){
+        if(size>= capacity)
+        {
+            grow();
+        }
+        array[size] = data;
+        size++;
+    }
 }
