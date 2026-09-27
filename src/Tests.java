@@ -140,6 +140,46 @@ public class Tests {
         check("mh extractMin returned all", count == values.length);
     }
 
+    static void testMinHeapLarge() {
+        MinHeap big = new MinHeap();
+        java.util.Random rnd = new java.util.Random(42);
+        for (int i = 0; i < 20000; i++) big.insert(rnd.nextInt());
+        int last = Integer.MIN_VALUE;
+        boolean ok = true;
+        for (int i = 0; i < 20000; i++) {
+            int m = (Integer) big.extractMin();
+            if (m < last) ok = false;
+            last = m;
+        }
+        check("mh large extract non-decreasing", ok);
+    }
+    static void crossValidateDynamicArray() {
+        java.util.Random rnd = new java.util.Random(42);
+        DynamicArray da = new DynamicArray();
+        java.util.ArrayList<Integer> ref = new java.util.ArrayList<>();
+        for (int i = 0; i < 5000; i++) {
+            int op = rnd.nextInt(4);
+            if (op == 0 || ref.isEmpty()) {
+                int v = rnd.nextInt(1000);
+                da.add(v);
+                ref.add(v);
+            } else if (op == 1) {
+                int idx = rnd.nextInt(ref.size() + 1);
+                int v = rnd.nextInt(1000);
+                da.add(idx, v);
+                ref.add(idx, v);
+            } else if (op == 2 && !ref.isEmpty()) {
+                int idx = rnd.nextInt(ref.size());
+                da.remove(idx);
+                ref.remove(idx);
+            }
+        }
+        boolean allMatch = true;
+        for (int i = 0; i < ref.size(); i++) {
+            if (!da.get(i).equals(ref.get(i))) allMatch = false;
+        }
+        check("da matches ArrayList", allMatch);
+    }
     public static void main(String[] args) {
         System.out.println("Passed: " + passed + ", Failed: " + failed);
     }
