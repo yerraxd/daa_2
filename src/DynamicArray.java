@@ -30,21 +30,14 @@ public class DynamicArray {
         array[index] = data;
         size++;
     }
-    public void delete(Object data){
-        for (int i = 0; i<size;i++){
-            if (array[i] == data){
-                for (int j = 0; j<(size-i-1);j++){
-                    array[j+i] = array[j+i+1];
-                }
-                array[size-1] = null;
-                size--;
-                if (size <=(int) (capacity/3)){
-                    shrink();
-                }
-                break;
-            }
+    public void remove(int index) {
+        if (index < 0 || index >= size) throw new IndexOutOfBoundsException();
+        for (int j = index; j < size - 1; j++) {
+            array[j] = array[j + 1];
         }
-
+        array[size - 1] = null;
+        size--;
+        if (size <= capacity / 3) shrink();
     }
     public int search(Object data) {
         for (int i = 0; i < size; i++) {
