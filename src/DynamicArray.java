@@ -22,7 +22,8 @@ public class DynamicArray {
         size++;
 
     }
-    public void insert(int index, Object data){
+    public void add(int index, Object data){
+        if (index < 0 || index > size) throw new IndexOutOfBoundsException();
         if(size>= capacity)
         {
             grow();
@@ -50,7 +51,7 @@ public class DynamicArray {
         return false;
     }
     private void grow(){
-        int newCapacity =(int)(capacity * 2);
+        int newCapacity =capacity * 2;
         Object[] newArray = new Object[newCapacity];
 
         for(int i = 0; i < size; i++){
