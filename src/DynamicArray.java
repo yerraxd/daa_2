@@ -11,10 +11,24 @@ public class DynamicArray {
         this.array = new Object[capacity];
     }
     public void add(Object data){
+        if(size>= capacity)
+        {
+            grow();
+        }
+        array[size] = data;
+        size++;
 
     }
     public void insert(int index, Object data){
-
+        if(size>= capacity)
+        {
+            grow();
+        }
+        for(int i = size; i>index;i--){
+            array[i] = array[i-1];
+        }
+        array[index] = data;
+        size++;
     }
     public void delete(Object data){
 
@@ -31,7 +45,5 @@ public class DynamicArray {
     public boolean isEmpty(){
         return size == 0;
     }
-    public String toString(){
-        return null;
-    }
+
 }
