@@ -22,6 +22,77 @@ public class Benchmark {
     }
 
     static void workload1RandomAccess() throws IOException {
+        PrintWriter out = new PrintWriter(
+                new FileWriter(OUT_DIR + "workload1_random_access.csv")
+        );
+
+        out.println("structure,n,avg_time_ns,accesses");
+
+        for (int n : SIZES) {
+            double arrTime = 0;
+            double listTime = 0;
+
+            for (int rep = 0; rep < REPEATS; rep++) {
+
+                Random dataRnd = new Random(SEED);
+
+                DynamicArray arr = new DynamicArray();
+                LinkedList list = new LinkedList();
+
+                for (int i = 0; i < n; i++) {
+                    int v = dataRnd.nextInt();
+
+                    arr.add(v);
+                    list.add(v);
+                }
+
+                Random idxRnd = new Random(SEED + rep + 1);
+
+                int[] indices = new int[10000];
+
+                for (int i = 0; i < indices.length; i++) {
+                    indices[i] = idxRnd.nextInt(n);
+                }
+
+                long t0 = System.nanoTime();
+
+                for (int idx : indices) {
+                    arr.get(idx);
+                }
+
+                long t1 = System.nanoTime();
+
+                arrTime += (t1 - t0);
+
+                long t2 = System.nanoTime();
+
+                for (int idx : indices) {
+                    list.get(idx);
+                }
+
+                long t3 = System.nanoTime();
+
+                listTime += (t3 - t2);
+            }
+
+            out.printf(
+                    "DynamicArray,%d,%.1f,%d%n",
+                    n,
+                    arrTime / REPEATS,
+                    10000
+            );
+
+            out.printf(
+                    "LinkedList,%d,%.1f,%d%n",
+                    n,
+                    listTime / REPEATS,
+                    10000
+            );
+
+            System.out.println("W1 n=" + n + " done");
+        }
+
+        out.close();
     }
 
     static void workload2Search() throws IOException {
