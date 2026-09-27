@@ -33,4 +33,17 @@ public class LinkedList {
         }
         return current;
     }
+    public Object get(int index) {
+        if (index < 0 || index >= size) throw new IndexOutOfBoundsException();
+        return getNode(index).data;
+    }
+    public boolean contains(Object data) {
+        Node current = head;
+        while (current != null) {
+            if (current.data != null && current.data.equals(data))
+                return true;
+            current = current.next;
+        }
+        return false;
+    }
 }
