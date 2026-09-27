@@ -98,12 +98,46 @@ public class Tests {
         b.remove(0);
         check("ll remove front", b.get(0).equals(0));
     }
-    
+
     static void testLinkedListLarge() {
         LinkedList big = new LinkedList();
         java.util.Random rnd = new java.util.Random(42);
         for (int i = 0; i < 20000; i++) big.add(rnd.nextInt());
         check("ll large get not null", big.get(10000) != null);
+    }
+
+    static void testMinHeapBasic() {
+        MinHeap h = new MinHeap();
+        check("mh empty isEmpty", h.isEmpty());
+
+        boolean threw = false;
+        try { h.peekMin(); } catch (IndexOutOfBoundsException e) { threw = true; }
+        check("mh empty peekMin throws", threw);
+
+        threw = false;
+        try { h.extractMin(); } catch (IndexOutOfBoundsException e) { threw = true; }
+        check("mh empty extractMin throws", threw);
+
+        h.insert(5);
+        check("mh one peekMin", h.peekMin().equals(5));
+        check("mh one extractMin", h.extractMin().equals(5));
+        check("mh after extract isEmpty", h.isEmpty());
+
+        int[] values = {5, 3, 8, 1, 9, 1, 3, -4, 7, 0};
+        MinHeap h2 = new MinHeap();
+        for (int v : values) h2.insert(v);
+
+        int prev = Integer.MIN_VALUE;
+        boolean nonDecreasing = true;
+        int count = 0;
+        while (!h2.isEmpty()) {
+            int m = (Integer) h2.extractMin();
+            if (m < prev) nonDecreasing = false;
+            prev = m;
+            count++;
+        }
+        check("mh extractMin non-decreasing", nonDecreasing);
+        check("mh extractMin returned all", count == values.length);
     }
 
     public static void main(String[] args) {
