@@ -39,13 +39,12 @@ public class DynamicArray {
         size--;
         if (size <= capacity / 3) shrink();
     }
-    public int search(Object data) {
+    public boolean contains(Object data) {
         for (int i = 0; i < size; i++) {
-            if (array[i] == data) {
-                return i;
-            }
+            if (array[i] != null && array[i].equals(data))
+                return true;
         }
-        return -1;
+        return false;
     }
     private void grow(){
         int newCapacity =(int)(capacity * 2);
