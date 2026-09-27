@@ -77,5 +77,8 @@ public class DynamicArray {
     public boolean isEmpty(){
         return size == 0;
     }
-
+    public Object get(int index) {
+        if (index < 0 || index >= size) throw new IndexOutOfBoundsException();
+        return array[index];
+    }
 }
