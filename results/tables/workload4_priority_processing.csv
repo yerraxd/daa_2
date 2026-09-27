@@ -1,0 +1,5 @@
+n,Insert time (ns),ExtractMin time (ns),Insert comparisons,Extract comparisons,Order correct
+100,139220,201852,513880,100000,true
+1000,444060,2238,2402720,15001,true
+10000,5240320,22683,6934100,216600,true
+100000,11210940,228142,146056020,2831649,true

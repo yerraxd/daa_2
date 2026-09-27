@@ -1,0 +1,17 @@
+n,Structure,Position,Insert (ns),Remove (ns)
+100,DynamicArray,Front,4979880,5621220
+100,LinkedList,Front,215020,101360
+100,DynamicArray,Middle,1918640,1966360
+100,LinkedList,Middle,312660,234480
+1000,DynamicArray,Front,3578600,3586240
+1000,LinkedList,Front,144780,93360
+1000,DynamicArray,Middle,2609940,2614220
+1000,LinkedList,Middle,1683440,1696700
+10000,DynamicArray,Front,25676520,25031200
+10000,LinkedList,Front,39240,25440
+10000,DynamicArray,Middle,14584660,14682940
+10000,LinkedList,Middle,18101400,17252740
+100000,DynamicArray,Front,1574981040,1766355880
+100000,LinkedList,Front,25680,13260
+100000,DynamicArray,Middle,731679100,679223140
+100000,LinkedList,Middle,199697760,264210160
