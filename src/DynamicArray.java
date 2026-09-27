@@ -7,6 +7,9 @@ public class DynamicArray {
         this.array = new Object[capacity];
     }
     public DynamicArray(int capacity){
+        if (capacity < 1) {
+            capacity = 1;
+        }
         this.capacity = capacity;
         this.array = new Object[capacity];
     }
@@ -57,9 +60,11 @@ public class DynamicArray {
         array = newArray;
     }
     private void shrink(){
-        int newCapacity =(int)(capacity / 2);
+        int newCapacity =capacity / 2;
+        if (newCapacity < 1) {
+            newCapacity = 1;
+        }
         Object[] newArray = new Object[newCapacity];
-
         for(int i = 0; i < size; i++){
             newArray[i] = array[i];
         }
