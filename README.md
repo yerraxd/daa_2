@@ -135,7 +135,7 @@ Comparison counts grow linearly with n for both structures, matching the theoret
 
 Front-position operations strongly favor LinkedList (constant-time head insert/remove), while DynamicArray must shift many elements.
 
-![Workload 3 - Front position](results/plots/plot2.png)
+![Workload 3 - Front position](results/plots/plot2.PNG)
 
 
 ### Workload 4 — Priority Processing (MinHeap)
@@ -149,7 +149,7 @@ Front-position operations strongly favor LinkedList (constant-time head insert/r
 
 All extracted elements were in non-decreasing order, confirming the heap maintained the priority property.
 
-![Workload 4 — MinHeap timing](results/plots/plot3.png)
+![Workload 4 — MinHeap timing](results/plots/plot3.PNG)
 
 ## 6. Discussion
 
