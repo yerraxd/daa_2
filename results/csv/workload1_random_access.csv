@@ -1,0 +1,9 @@
+structure,n,avg_time_ns,accesses
+DynamicArray,100,1054500,0,10000
+LinkedList,100,10914420,0,10000
+DynamicArray,1000,127120,0,10000
+LinkedList,1000,18556280,0,10000
+DynamicArray,10000,4253680,0,10000
+LinkedList,10000,244741200,0,10000
+DynamicArray,100000,453880,0,10000
+LinkedList,100000,2622807820,0,10000

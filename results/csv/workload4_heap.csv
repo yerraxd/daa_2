@@ -1,0 +1,5 @@
+n,avg_insert_time_ns,avg_extract_time_ns,avg_insert_comparisons,avg_extract_comparisons,order_ok
+100,139220,0,513880,0,201,852,true
+1000,444060,0,2402720,0,2238,15001,true
+10000,5240320,0,6934100,0,22683,216600,true
+100000,11210940,0,146056020,0,228142,2831649,true
