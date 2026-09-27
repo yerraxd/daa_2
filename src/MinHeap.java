@@ -65,6 +65,7 @@ public class MinHeap {
         array[0] = array[size - 1];
         array[size - 1] = null;
         size--;
+        if (size > 0) siftDown(0);
         return min;
     }
 
@@ -84,4 +85,5 @@ public class MinHeap {
             index = smallest;
         }
     }
+
 }
