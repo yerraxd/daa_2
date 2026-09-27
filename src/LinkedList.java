@@ -1,4 +1,3 @@
-
 public class LinkedList {
     private static class Node {
         Object data;
@@ -11,6 +10,14 @@ public class LinkedList {
     private Node head;
     private Node tail;
     private int size;
+
+    public long comparisons = 0;
+    public long movements = 0;
+
+    public void resetCounters(){
+        comparisons = 0;
+        movements = 0;
+    }
 
     public LinkedList() {
     }
@@ -30,6 +37,7 @@ public class LinkedList {
         Node current = head;
         for (int i = 0; i < index; i++) {
             current = current.next;
+            movements++;
         }
         return current;
     }
@@ -40,6 +48,7 @@ public class LinkedList {
     public boolean contains(Object data) {
         Node current = head;
         while (current != null) {
+            comparisons++;
             if (current.data != null && current.data.equals(data))
                 return true;
             current = current.next;

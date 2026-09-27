@@ -3,6 +3,14 @@ public class DynamicArray {
     int capacity = 8;
     Object[] array;
 
+    public long comparisons = 0;
+    public long movements = 0;
+
+    public void resetCounters(){
+        comparisons = 0;
+        movements = 0;
+    }
+
     public DynamicArray(){
         this.array = new Object[capacity];
     }
@@ -30,6 +38,7 @@ public class DynamicArray {
         }
         for(int i = size; i>index;i--){
             array[i] = array[i-1];
+            movements++;
         }
         array[index] = data;
         size++;
@@ -38,6 +47,7 @@ public class DynamicArray {
         if (index < 0 || index >= size) throw new IndexOutOfBoundsException();
         for (int j = index; j < size - 1; j++) {
             array[j] = array[j + 1];
+            movements++;
         }
         array[size - 1] = null;
         size--;
@@ -45,6 +55,7 @@ public class DynamicArray {
     }
     public boolean contains(Object data) {
         for (int i = 0; i < size; i++) {
+            comparisons++;
             if (array[i] != null && array[i].equals(data))
                 return true;
         }
@@ -56,6 +67,7 @@ public class DynamicArray {
 
         for(int i = 0; i < size; i++){
             newArray[i] = array[i];
+            movements++;
         }
         capacity = newCapacity;
         array = newArray;
@@ -68,6 +80,7 @@ public class DynamicArray {
         Object[] newArray = new Object[newCapacity];
         for(int i = 0; i < size; i++){
             newArray[i] = array[i];
+            movements++;
         }
         capacity = newCapacity;
         array = newArray;
