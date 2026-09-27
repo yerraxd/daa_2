@@ -49,6 +49,16 @@ public class Tests {
         check("da remove front", b.get(0).equals(0));
     }
 
+    static void testDynamicArrayLarge() {
+        DynamicArray big = new DynamicArray();
+        java.util.Random rnd = new java.util.Random(42);
+        for (int i = 0; i < 20000; i++) big.add(rnd.nextInt());
+        check("da large get not null", big.get(10000) != null);
+        for (int i = 0; i < 19999; i++) big.remove(0);
+        check("da shrink not empty yet", !big.isEmpty());
+        big.remove(0);
+        check("da all removed", big.isEmpty());
+    }
     public static void main(String[] args) {
         System.out.println("Passed: " + passed + ", Failed: " + failed);
     }
