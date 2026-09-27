@@ -67,7 +67,7 @@ public class LinkedList {
         }
         size++;
     }
-    
+
     public void remove(int index) {
         if (index < 0 || index >= size) throw new IndexOutOfBoundsException();
 
@@ -82,5 +82,7 @@ public class LinkedList {
         }
         size--;
     }
-
+    public boolean isEmpty() {
+        return size == 0;
+    }
 }
