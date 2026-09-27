@@ -99,7 +99,7 @@ Benchmark writes CSV files to `results/csv/`.
 
 DynamicArray maintains roughly constant-time indexed access; LinkedList slows substantially as n grows.
 
-![Workload 1 - Random Access](results/plots/plot1.png)
+![Workload 1 - Random Access](results/plots/plot1.PNG)
 
 ### Workload 2 - Search
 
