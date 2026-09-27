@@ -29,7 +29,6 @@ complexity.
 | MinHeap | peekMin() | O(1) | O(1) | O(1) | O(1) |
 | MinHeap | extractMin() | O(1) | O(log n) | O(log n) | O(1) |
 
-Explanation:
 
 get(index) on DynamicArray is always O(1) because it is a direct array
 access, no case makes it slower.
@@ -147,53 +146,33 @@ java Benchmark
 ```
 Benchmark writes CSV files to results/csv/.
 
-## 5. Results
+5. Results
+Workload 1 — Random Access
+nDynamicArray avg time (ns)LinkedList avg time (ns)1001,054,50010,914,4201,000127,12018,556,28010,0004,253,680244,741,200100,000453,8802,622,807,820
+DynamicArray maintains approximately constant-time indexed access, while LinkedList becomes substantially slower as n increases.
+Workload 2 — Search
+nDynamicArray avg time (ns)LinkedList avg time (ns)DynamicArray comparisonsLinkedList comparisons1002,430,9202,062,400100,000100,0001,0002,755,7604,202,8401,000,0001,000,00010,00023,743,36044,914,46010,000,00010,000,000100,000490,213,360735,975,000100,000,000100,000,000The number of comparisons grows linearly with n for both structures, which agrees with the theoretical O(n) search complexity.
+Workload 3 — Insertion and Removal
+nStructurePositionInsert (ns)Remove (ns)100DynamicArrayFront4,979,8805,621,220100LinkedListFront215,020101,360100DynamicArrayMiddle1,918,6401,966,360100LinkedListMiddle312,660234,4801,000DynamicArrayFront3,578,6003,586,2401,000LinkedListFront144,78093,3601,000DynamicArrayMiddle2,609,9402,614,2201,000LinkedListMiddle1,683,4401,696,70010,000DynamicArrayFront25,676,52025,031,20010,000LinkedListFront39,24025,44010,000DynamicArrayMiddle14,584,66014,682,94010,000LinkedListMiddle18,101,40017,252,740100,000DynamicArrayFront1,574,981,0401,766,355,880100,000LinkedListFront25,68013,260100,000DynamicArrayMiddle731,679,100679,223,140100,000LinkedListMiddle199,697,760264,210,160
+The front position strongly favors LinkedList because insertion and removal at the head require constant work, while DynamicArray must shift many elements.
+Workload 4 — Priority Processing
+nInsert time (ns)ExtractMin time (ns)Insert comparisonsExtract comparisonsOrder correct100139,220201,852513,880100,000true1,000444,0602,2382,402,72015,001true10,0005,240,32022,6836,934,100216,600true100,00011,210,940228,142146,056,0202,831,649true
 
-[PASTE YOUR TABLES HERE, one per workload, columns: n, structure, avg
-time, metric (accesses/comparisons/movements), theoretical complexity]
 
-[PASTE PLOTS HERE: time vs n, and operations vs n, for each workload]
 
-## 6. Discussion
 
-Random Access (W1) should match theory closely: DynamicArray.get() stays
-flat across n because it is O(1), LinkedList.get() grows close to
-linearly because it is O(n).
+All extracted elements were in non-decreasing order, confirming that the heap maintained the required priority property.
+6. Discussion
+The experimental results generally agree with the theoretical analysis: DynamicArray get() remains effectively constant-time, while LinkedList get() becomes much slower as n increases. Search is O(n) for both structures, and the experiments show exactly the same number of comparisons, although their execution times differ because of implementation and memory-access overhead. Workload 3 also follows the expected behavior: LinkedList is much faster for insertion and removal at the front, while both structures require linear work for middle operations. Interestingly, the middle-position results show that similar O(n) behavior does not guarantee identical running times; at n = 100,000, for example, DynamicArray middle insertion took about 731.7 ms while LinkedList took about 199.7 ms. The Min-Heap results show increasing cost with larger inputs, while order_ok = true for every tested size confirms that extraction preserved non-decreasing order.
+7. Design Recommendations
+DynamicArray is appropriate for workloads requiring frequent indexed access because get(index) is O(1) and its contiguous storage provides efficient memory access. LinkedList is useful when frequent insertions and removals occur at the beginning of the structure. Min-Heap is appropriate for priority-based processing because it provides efficient minimum-element access and logarithmic insertion and extraction.
+8. Conclusion
+The experiments demonstrate that theoretical complexity is a useful predictor of performance, but it does not fully determine real execution time. The workloads showed clear differences between contiguous arrays, linked nodes, and heap-based organization. The results also demonstrated that two operations with the same asymptotic complexity can still have noticeably different practical running times because of implementation details and constant factors. Overall, the most suitable data structure depends on the operations performed most frequently.
 
-Search (W2) comparison counts should match exactly, since both structures
-scan every element when the searched value is not present. Wall-clock
-time still differs because of constant factors (see below).
 
-Insertion/removal (W3) is the clearest case where two structures with the
-same Big-O can behave very differently: at the middle index both are
-Theta(n), but DynamicArray tends to be faster in practice because it
-shifts contiguous memory (cache friendly), while LinkedList follows
-pointers to separately allocated nodes (cache misses). Same complexity
-class, different constant factor.
 
-MinHeap (W4): comparisons should scale with n * log(n) overall, and the
-extracted sequence must always be non-decreasing, matching what Tests.java
-already validated.
 
-[FILL IN YOUR ACTUAL NUMBERS AND OBSERVATIONS HERE ONCE YOU HAVE THE
-BENCHMARK OUTPUT]
 
-## 7. Design Recommendations
 
-DynamicArray is better when random access by index dominates, or most
-insertions/removals happen near the end.
 
-LinkedList is useful when insertions/removals happen mostly at the front,
-and indexed access is rare.
 
-A heap is appropriate for priority based processing because it gives
-O(log n) insert and O(log n) extract-min without needing a full sort,
-which matches how a priority queue is actually used.
-
-The right structure depends on the workload shape, not just the data.
-
-## 8. Conclusion
-
-[SUMMARIZE YOUR ACTUAL RESULTS HERE: which theoretical predictions were
-confirmed, where the middle-insert case showed same Big-O but different
-real speed, and what that means about constant factors in practice]
